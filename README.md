@@ -40,7 +40,7 @@ Getting up and running
   sudo make install
   ```
 
-  5. After compiling and install finishes, you can run the followin command in Terminal:
+  5. After compiling and install finishes, you can run the following command in Terminal:
 
   ```
   how-to-use-pvs-studio-free --help
