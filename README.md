@@ -12,11 +12,11 @@ How to use PVS-Studio for FREE?
 
   You can find more details about the free version of PVS-Studio [here](http://www.viva64.com/en/b/0457/).
 
-  Binaries for Linux and Windows can be found [here](https://github.com/viva64/how-to-use-pvs-studio-free/releases).
-
 Getting up and running
 ----------------------
 
+  Binaries for Linux and Windows can be found [here](https://github.com/viva64/how-to-use-pvs-studio-free/releases).
+  
   The steps below will take you through cloning your own repository, then compiling and running the utility yourself:
 
 ### Windows:
