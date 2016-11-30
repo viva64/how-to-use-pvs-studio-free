@@ -10,9 +10,10 @@ How to use PVS-Studio for FREE?
   files. If you use files with other extensions, you can customize this utility
   for your needs.
 
-  You can find more details about the free version of PVS-Studio
-  here: http://www.viva64.com/en/b/0457/
-  
+  You can find more details about the free version of PVS-Studio [here](http://www.viva64.com/en/b/0457/).
+
+  Binaries for Linux and Windows can be found [here](https://github.com/viva64/how-to-use-pvs-studio-free/releases).
+
 Getting up and running
 ----------------------
 
