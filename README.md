@@ -10,6 +10,9 @@ How to use PVS-Studio for FREE?
   files. If you use files with other extensions, you can customize this utility
   for your needs.
 
+  You can find more details about the free version of PVS-Studio
+  here: http://www.viva64.com/en/b/0457/
+  
 Getting up and running
 ----------------------
 
@@ -45,6 +48,3 @@ Getting up and running
   ```
   how-to-use-pvs-studio-free --help
   ```
-
-  You can find more details about the free version of PVS-Studio
-  here: http://www.viva64.com/en/b/0457/
