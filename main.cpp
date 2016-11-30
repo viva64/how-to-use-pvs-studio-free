@@ -170,6 +170,9 @@ Description:
   In case none of the options suits you, we suggest considering a purchase of a
   commercial license for PVS-Studio. We are ready to discuss this and other
   questions via e-mail: support@viva64.com.
+  
+  You can find more details about the free version of PVS-Studio
+  here: http://www.viva64.com/en/b/0457/
 )HELP";
 
 void help()

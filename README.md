@@ -46,3 +46,5 @@ Getting up and running
   how-to-use-pvs-studio-free --help
   ```
 
+  You can find more details about the free version of PVS-Studio
+  here: http://www.viva64.com/en/b/0457/
