@@ -116,10 +116,14 @@ static string Format(const string &comment)
   istringstream stream(comment);
   string line;
 
+  ostream << "/*" << endl;
+
   while (getline(stream, line))
   {
-    ostream << "// " << line << endl;
+    ostream << "* " << line << endl;
   }
+
+  ostream << "*/" << endl;
 
   return ostream.str();
 }
