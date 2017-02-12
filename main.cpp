@@ -110,20 +110,30 @@ static void AddComments(const string &path, const string &comment)
   }
 }
 
-static string Format(const string &comment)
+static string Format(const string &comment, bool multiline)
 {
   ostringstream ostream;
   istringstream stream(comment);
   string line;
 
-  ostream << "/*" << endl;
-
-  while (getline(stream, line))
+  if (multiline) 
   {
-    ostream << "* " << line << endl;
-  }
+	  ostream << "/*" << endl;
 
-  ostream << "*/" << endl;
+	  while (getline(stream, line))
+	  {
+		  ostream << "* " << line << endl;
+	  }
+
+	  ostream << "*/" << endl;
+  }
+  else 
+  {
+	  while (getline(stream, line))
+	  {
+		  ostream << "// " << line << endl;
+	  }
+  }
 
   return ostream.str();
 }
@@ -135,12 +145,15 @@ static const char Help[] = R"HELP(How to use PVS-Studio for FREE?
 
 Usage:
 
-  how-to-use-pvs-studio-free -c <1|2|3> [-h] <strings> ...
+  how-to-use-pvs-studio-free -c <1|2|3> [-m] [-h] <strings> ...
 
 Options:
 
   -c <1|2|3>,  --comment <1|2|3>
     (required)  Type of comment prepended to the source file.
+
+  -m, --muliline
+	Create multiline comments instead of oneline.
     
   -h,  --help
     Display usage information and exits.
@@ -160,7 +173,9 @@ Description:
 
     1. Personal academic project;
     2. Open source non-commercial project;
-    3. Independent project of an individual developer.
+    3. Independent project of an individual developer;
+
+    (-m): Multiline comments.
 
   If you are using PVS-Studio as a Visual Studio plugin, then enter the
   following license key: 
@@ -238,9 +253,11 @@ int main(int argc, const char *argv[])
 {
   string commentType;
   vector<string> files;
+  bool multiline = false;
   vector<Option> options = {
     { {"-c", "/c", "--comment"}, true,   [&commentType](string &&arg){commentType = move(arg);} },
-    { {"-h", "--help", "/?"},    false,  [](string &&){throw ProgramOptionsError();} },
+	{ { "-m", "--multiline" },    false,   [&multiline](string &&) {multiline = true; } },
+	{ {"-h", "--help", "/?"},    false,  [](string &&) {throw ProgramOptionsError(); } }
   };
 
   try
@@ -253,7 +270,7 @@ int main(int argc, const char *argv[])
       throw invalid_argument("");
     }
 
-    string comment = Format(PvsStudioFreeComments::Comments[n - 1].text);
+    string comment = Format(PvsStudioFreeComments::Comments[n - 1].text, multiline);
     for (const string &file : files)
     {
       AddComments(file, comment);
