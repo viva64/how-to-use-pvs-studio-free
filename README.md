@@ -1,51 +1,37 @@
-How to use PVS-Studio for FREE?
-===============================
+# Ненависть
+Прочитал эту [статью](https://habrahabr.ru/company/pvs-studio/blog/321582/)
 
-  You can use PVS-Studio code analyzer for free, if you add special comments
-  to your source code.
+Меня смутила следующая цитата:
+![](https://hsto.org/getpro/habr/post_images/785/1ef/951/7851ef951142a456148456eae8568fb0.png)
+> Как видно на картинке, пока на GitHub не так много людей, использующих PVS-Studio. Но постепенно их количество растёт. Давайте послушаем мнения некоторых из этих пользователей.
 
-  The utility will add comments to the files located in the specified folders
-  and subfolders. The comments are added to the beginning of the files with the
-  extensions .c, .cc, .cpp, .cp, .cxx, .c++, .cs. You don't have to change header
-  files. If you use files with other extensions, you can customize this utility
-  for your needs.
+Дожили, product-placement теперь в исходниках. Количество ~~дураков~~ пользователей, которые в своих опен-сурсных проектах рекламируют продукт, увеличивается.
 
-  You can find more details about the free version of PVS-Studio [here](http://www.viva64.com/en/b/0457/).
+Хотелось бы пояснить пользователям, как использовать сабж, при этом не оставляя рекламу в своих исходниках
 
-Getting up and running
-----------------------
+- копируем исходники из рабочего каталога во временный каталог
+- вставляем эти дурацкие комментарии в исходники из временного каталога
+- запускаем сабж во временном каталоге
+- смотрим результаты
+- делаем выводы
+- применяем изменения в рабочем каталоге
 
-  Binaries for Linux and Windows can be found [here](https://github.com/viva64/how-to-use-pvs-studio-free/releases).
-  
-  The steps below will take you through cloning your own repository, then compiling and running the utility yourself:
+Коллеги, не будьте дураками.
 
-### Windows:
+Это все что я хотел написать в самой статье как комментарий, но ребята из PVS-Studio решили, лучше не надо это опубликовывать (карма 0, мои комментарии модерируются). Все что ниже это уже дополнение.
 
-  1. Install Visual Studio 2015. All desktop editions of Visual Studio 2015 can build this utility.
-  2. Open How-To-Use-PVS-Studio-FREE.sln and build Release x64.
-  3. After compiling finishes, you can run the following command in Command Prompt:
+По поводу самого PVS-Studio. Как мы знаем, что исходники данного продукта закрыты. Это печально, т.к. использовать этот продукт для проекта вида atom-reactor-control нельзя. Мало-ли, что там PVS-Studio делает. Может быть эту функцию:
+```
+int is_good_temperature( float temperature ) {
+    return temperature > 100 ? 0 : 1;
+}
+```
 
-  ```
-  How-To-Use-PVS-Studio-FREE.exe --help
-  ```
+Исправляет на
+```
+int is_good_temperature( float temperature ) {
+    return 1;
+}
+```
 
-### Linux:
-
-  1. Install Git then clone our repository.
-  2. Install GCC 5.4 or later.
-  3. Install CMake.
-  4. Open your source folder in Terminal and run the following commands:
-
-  ```
-  mkdir build
-  cd build
-  cmake -DCMAKE_BUILD_TYPE=Release ..
-  make
-  sudo make install
-  ```
-
-  5. After compiling and install finishes, you can run the following command in Terminal:
-
-  ```
-  how-to-use-pvs-studio-free --help
-  ```
+Более мелкие варианты подобных пакостей уже [были](https://geektimes.ru/post/58779/). Поэтому товаращи коллеги - будьте аккуратны.
