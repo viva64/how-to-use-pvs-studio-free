@@ -175,8 +175,6 @@ Description:
     2. Open source non-commercial project;
     3. Independent project of an individual developer;
 
-    (-m): Multiline comments.
-
   If you are using PVS-Studio as a Visual Studio plugin, then enter the
   following license key: 
 
