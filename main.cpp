@@ -116,23 +116,23 @@ static string Format(const string &comment, bool multiline)
   istringstream stream(comment);
   string line;
 
-  if (multiline) 
+  if (multiline)
   {
-	  ostream << "/*" << endl;
+    ostream << "/*" << endl;
 
-	  while (getline(stream, line))
-	  {
-		  ostream << "* " << line << endl;
-	  }
+    while (getline(stream, line))
+    {
+      ostream << "* " << line << endl;
+    }
 
-	  ostream << "*/" << endl;
+    ostream << "*/" << endl;
   }
-  else 
+  else
   {
-	  while (getline(stream, line))
-	  {
-		  ostream << "// " << line << endl;
-	  }
+    while (getline(stream, line))
+    {
+      ostream << "// " << line << endl;
+    }
   }
 
   return ostream.str();
@@ -153,7 +153,7 @@ Options:
     (required)  Type of comment prepended to the source file.
 
   -m, --muliline
-	Create multiline comments instead of oneline.
+    Use multi-line comments instead of single-line.
     
   -h,  --help
     Display usage information and exits.
@@ -173,7 +173,7 @@ Description:
 
     1. Personal academic project;
     2. Open source non-commercial project;
-    3. Independent project of an individual developer;
+    3. Independent project of an individual developer.
 
   If you are using PVS-Studio as a Visual Studio plugin, then enter the
   following license key: 
@@ -253,9 +253,9 @@ int main(int argc, const char *argv[])
   vector<string> files;
   bool multiline = false;
   vector<Option> options = {
-    { {"-c", "/c", "--comment"}, true,   [&commentType](string &&arg){commentType = move(arg);} },
-	{ { "-m", "--multiline" },    false,   [&multiline](string &&) {multiline = true; } },
-	{ {"-h", "--help", "/?"},    false,  [](string &&) {throw ProgramOptionsError(); } }
+    { {"-c", "/c", "--comment"}, true,   [&](string &&arg) { commentType = move(arg); } },
+    { { "-m", "--multiline" },   false,  [&](string &&)    { multiline = true; } },
+    { {"-h", "--help", "/?"},    false,  [&](string &&)    { throw ProgramOptionsError(); } },
   };
 
   try

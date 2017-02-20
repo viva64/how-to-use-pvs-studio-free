@@ -1,5 +1,5 @@
 //  2006-2008 (c) Viva64.com Team
-//  2008-2016 (c) OOO "Program Verification Systems"
+//  2008-2017 (c) OOO "Program Verification Systems"
 
 #include "comments.h"
 #include <cassert>
@@ -9,26 +9,21 @@ const std::vector<PvsStudioFreeComments::Comment> PvsStudioFreeComments::Comment
 #include "comments_msg.h"
 };
 
-static int strcasecmp(const std::string &lhs, const std::string &rhs)
+static bool beginsWithICase(const std::string &str, const std::string &prefix)
 {
-  if (lhs.length() < rhs.length())
+  if (str.length() < prefix.length())
   {
-    return -1;
-  }
-  else if (lhs.length() > rhs.length())
-  {
-    return 1;
+    return false;
   }
 
-  for (size_t i = 0; i < lhs.length(); ++i)
+  for (size_t i = 0; i < prefix.length(); ++i)
   {
-    int d = tolower(lhs[i]) - tolower(rhs[i]);
-    if (d != 0)
+    if (tolower(str[i]) != tolower(prefix[i]))
     {
-      return d;
+      return false;
     }
   }
-  return 0;
+  return true;
 }
 
 class CommentsParser
@@ -46,20 +41,15 @@ public:
       buf = readComment(buf);
       if (m_comment.lines != prevLines)
       {
-        bool needMoreLines = false;
         for (auto &comment : PvsStudioFreeComments::Comments)
         {
           if (comment.lines == m_comment.lines)
           {
-            if (strcasecmp(comment.trimmedText, m_comment.trimmedText) == 0)
+            if (beginsWithICase(comment.trimmedText, m_comment.trimmedText))
               return true;
           }
-          else if (comment.lines >= m_comment.lines)
-            needMoreLines = true;
         }
         prevLines = m_comment.lines;
-        if (!needMoreLines)
-          break;
       }
       else
       {
@@ -93,8 +83,7 @@ private:
         ++end;
       it = (*end == '\n') ? end + 1 : end;
 
-      m_comment.addLine(begin, end);
-      return it;
+      return m_comment.addLine(begin, end) ? it : nullptr;
     }
     if (it[0] == '/' && it[1] == '*')
     {
@@ -131,8 +120,7 @@ private:
       assert(false);
     }
 
-    m_comment.addLine(begin, end);
-    return it;
+    return m_comment.addLine(begin, end) ? it : nullptr;
   }
 
   static constexpr size_t MaxSkippedLines = 10;
