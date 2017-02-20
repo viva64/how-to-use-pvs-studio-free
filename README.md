@@ -49,3 +49,15 @@ Getting up and running
   ```
   how-to-use-pvs-studio-free --help
   ```
+
+### Note:
+
+There was a large discussion on the topic whether it is permitted to add and remove comments in the source code so that to use the analyzer for free. We consider this method to be unacceptable, as it is a way to bypass the restrictions, imposed on a free license. Therefore, we decided to add the following section to the license agreement:
+
+You have the right to use PVS-Studio for free by adding special comments to the source code of your project. To find out which comments should be added and the way to automate this process, read the article: "How to use PVS-Studio for Free".
+
+Note that this mode is not intended to evaluate this software. Please use a demo version or request a temporary license key to try out the analyzer.
+
+You should insert these comments when you have already decided to use the analyzer on a regular basis. You can remove these comments later, but it is possible to remove them only once.
+
+It is not allowed to add and remove the comments in the source code repeatedly. It is also not allowed to append comments multiple times and subsequently roll back the content of comments in source files to initial state using version control system. Such actions are intended to evade the terms that the source code should contain comments and are a violation of the analyzer usage agreement.
