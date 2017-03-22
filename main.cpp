@@ -152,7 +152,7 @@ Options:
   -c <1|2|3>,  --comment <1|2|3>
     (required)  Type of comment prepended to the source file.
 
-  -m, --muliline
+  -m, --multiline
     Use multi-line comments instead of single-line.
     
   -h,  --help
