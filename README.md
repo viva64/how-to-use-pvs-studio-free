@@ -29,10 +29,10 @@ Getting up and running
   How-To-Use-PVS-Studio-FREE.exe --help
   ```
 
-### Linux:
+### Linux/Mac:
 
   1. Install Git then clone our repository.
-  2. Install GCC 5.4 or later.
+  2. Install GCC or Clang.
   3. Install CMake.
   4. Open your source folder in Terminal and run the following commands:
 
