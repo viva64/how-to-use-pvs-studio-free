@@ -1,11 +1,11 @@
 //  2006-2008 (c) Viva64.com Team
-//  2008-2017 (c) OOO "Program Verification Systems"
+//  2008-2018 (c) OOO "Program Verification Systems"
 
 #ifndef PVS_STUDIO_FREE_COMMENTS_COMMENTS_H
 #define PVS_STUDIO_FREE_COMMENTS_COMMENTS_H
 
-#include <string>
 #include <vector>
+#include <string>
 #include <sstream>
 
 namespace PvsStudioFreeComments
@@ -28,7 +28,7 @@ namespace PvsStudioFreeComments
     {
       size_t width = 0;
 
-      while (begin != end && isspace(*begin))
+      while (begin != end && isspace(*(unsigned char*)begin))
       {
         width += (*begin == '\t' ? 4 : 1);
         ++begin;
@@ -39,7 +39,7 @@ namespace PvsStudioFreeComments
         return false;
       }
 
-      while (begin != end && isspace(*(end - 1)))
+      while (begin != end && isspace(*(unsigned char*)(end - 1)))
       {
         --end;
       }

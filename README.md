@@ -10,7 +10,7 @@ How to use PVS-Studio for FREE?
   files. If you use files with other extensions, you can customize this utility
   for your needs.
 
-  You can find more details about the free version of PVS-Studio [here](http://www.viva64.com/en/b/0457/).
+  You can find more details about the free version of PVS-Studio [here](https://www.viva64.com/en/b/0457/).
 
 Getting up and running
 ----------------------
@@ -32,7 +32,7 @@ Getting up and running
 ### Linux/Mac:
 
   1. Install Git then clone our repository.
-  2. Install GCC or Clang.
+  2. Install GCC 5.4 or later.
   3. Install CMake.
   4. Open your source folder in Terminal and run the following commands:
 

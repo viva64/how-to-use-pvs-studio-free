@@ -1,9 +1,8 @@
 //  2006-2008 (c) Viva64.com Team
-//  2008-2017 (c) OOO "Program Verification Systems"
+//  2008-2018 (c) OOO "Program Verification Systems"
 
 #include "comments.h"
 #include <cassert>
-#include <cctype>
 
 const std::vector<PvsStudioFreeComments::Comment> PvsStudioFreeComments::Comments = {
 #include "comments_msg.h"

@@ -1,5 +1,5 @@
 //  2006-2008 (c) Viva64.com Team
-//  2008-2016 (c) OOO "Program Verification Systems"
+//  2008-2018 (c) OOO "Program Verification Systems"
 
 #ifndef PVS_STUDIO_FREE_COMMENTS_ENCODING_H
 #define PVS_STUDIO_FREE_COMMENTS_ENCODING_H

@@ -189,7 +189,7 @@ Description:
   questions via e-mail: support@viva64.com.
   
   You can find more details about the free version of PVS-Studio
-  here: http://www.viva64.com/en/b/0457/
+  here: https://www.viva64.com/en/b/0457/
 )HELP";
 
 void help()
