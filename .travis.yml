@@ -1,0 +1,27 @@
+language: cpp
+dist: trusty
+matrix:
+    include:
+        - os: linux
+          addons:
+              apt:
+                  sources: ['ubuntu-toolchain-r-test']
+                  packages: ['g++-6']
+          env: COMPILER=g++-6
+
+        - os: osx
+          osx_image: xcode8
+          compiler: clang
+          env: COMPILER=g++-7
+
+script:
+    - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then
+        brew update
+        brew install gcc
+      fi
+    - mkdir build
+    - cd build
+    - cmake -DCMAKE_BUILD_TYPE="Release" -DCMAKE_CXX_COMPILER="${COMPILER}" ..
+    - make -j8
+
+
