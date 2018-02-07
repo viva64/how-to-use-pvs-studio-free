@@ -29,7 +29,7 @@ Getting up and running
   How-To-Use-PVS-Studio-FREE.exe --help
   ```
 
-### Linux/Mac:
+### Linux/macOS:
 
   1. Install Git then clone our repository.
   2. Install GCC 5.4 or later.
