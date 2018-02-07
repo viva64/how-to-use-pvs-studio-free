@@ -10,15 +10,19 @@ set(SOURCES
     encoding.cpp
     )
 
+option(PVS_STUDIO_SHARED "Use shared libraries" OFF)
+
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 if (MSVC)
     add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 else ()
-    set(CMAKE_INSTALL_PREFIX "/usr")
+    if (NOT APPLE)
+        set(CMAKE_INSTALL_PREFIX "/usr")
+    endif ()
 
-    if (NOT PVS_STUDIO_SHARED)
+    if (NOT PVS_STUDIO_SHARED AND NOT APPLE)
         set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static")
         set(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "")
         set(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS "")
@@ -34,6 +38,7 @@ if (NOT "${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
 else ()
     set(NAME "${PROJECT_NAME}")
 endif ()
+
 add_executable("${NAME}" ${SOURCES})
 install(TARGETS "${NAME}" DESTINATION bin)
 

@@ -27,8 +27,9 @@ namespace PvsStudioFreeComments
     bool addLine(const char *begin, const char *end)
     {
       size_t width = 0;
+      std::string whitespace = " \t";
 
-      while (begin != end && isspace(*(unsigned char*)begin))
+      while (begin != end && whitespace.find(*begin) != std::string::npos)
       {
         width += (*begin == '\t' ? 4 : 1);
         ++begin;
@@ -39,7 +40,7 @@ namespace PvsStudioFreeComments
         return false;
       }
 
-      while (begin != end && isspace(*(unsigned char*)(end - 1)))
+      while (begin != end && whitespace.find(*(end - 1)) != std::string::npos)
       {
         --end;
       }
