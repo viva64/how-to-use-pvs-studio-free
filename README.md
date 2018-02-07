@@ -1,4 +1,4 @@
-How to use PVS-Studio for FREE?
+How to use PVS-Studio for FREE? [![Build Status](https://travis-ci.org/viva64/how-to-use-pvs-studio-free.svg?branch=master)](https://travis-ci.org/viva64/how-to-use-pvs-studio-free)
 ===============================
 
   You can use PVS-Studio code analyzer for free, if you add special comments
