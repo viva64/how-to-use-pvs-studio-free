@@ -85,28 +85,45 @@ static void AddCommentsToFile(const filesystem::path &path, const string &commen
   }
 }
 
-static void AddComments(const string &path, const string &comment)
+static void ProcessFile(filesystem::path path, const string &comment, const bool readSymlinks)
+{
+  if (readSymlinks && filesystem::is_symlink(path))
+  {
+    std::error_code error;
+    path = filesystem::canonical(filesystem::read_symlink(path), path.parent_path(), error);
+    if (error != std::error_code())
+    {
+      return;
+    }
+  }
+
+  if (filesystem::is_regular_file(path))
+  {
+    AddCommentsToFile(path, comment);
+  }
+}
+
+static void AddComments(const string &path, const string &comment, const bool readSymlinks)
 {
   auto fsPath = filesystem::canonical(path);
-  auto fsStatus = filesystem::status(fsPath);
-  if (!filesystem::exists(fsStatus))
+  if (!filesystem::exists(fsPath))
   {
     cerr << "File not exists: " << path << endl;
     return;
   }
-  if (filesystem::is_directory(fsStatus))
+  if (filesystem::is_directory(fsPath))
   {
-    for (auto &p : filesystem::recursive_directory_iterator(fsPath))
+    filesystem::directory_options symlink_flag = readSymlinks
+                                                 ? filesystem::directory_options::follow_directory_symlink
+                                                 : filesystem::directory_options::none;
+    for (auto &&p : filesystem::recursive_directory_iterator(fsPath, symlink_flag))
     {
-      if (filesystem::is_regular_file(p.status()))
-      {
-        AddCommentsToFile(p.path(), comment);
-      }
+      ProcessFile(p.path(), comment, readSymlinks);
     }
   }
   else
   {
-    AddCommentsToFile(fsPath, comment);
+    ProcessFile(fsPath, comment, readSymlinks);
   }
 }
 
@@ -252,10 +269,12 @@ int main(int argc, const char *argv[])
   string commentType;
   vector<string> files;
   bool multiline = false;
+  bool readSymlinks = false;
   vector<Option> options = {
-    { {"-c", "/c", "--comment"}, true,   [&](string &&arg) { commentType = move(arg); } },
-    { { "-m", "--multiline" },   false,  [&](string &&)    { multiline = true; } },
-    { {"-h", "--help", "/?"},    false,  [&](string &&)    { throw ProgramOptionsError(); } },
+    { { "-c", "/c", "--comment" }, true,   [&](string &&arg) { commentType = move(arg); } },
+    { { "-m", "--multiline" },     false,  [&](string &&)    { multiline = true; } },
+    { { "-s", "--symlinks" },      false,  [&](string &&)    { readSymlinks = true; } },
+    { { "-h", "--help", "/?" },    false,  [&](string &&)    { throw ProgramOptionsError(); } },
   };
 
   try
@@ -271,7 +290,7 @@ int main(int argc, const char *argv[])
     string comment = Format(PvsStudioFreeComments::Comments[n - 1].text, multiline);
     for (const string &file : files)
     {
-      AddComments(file, comment);
+      AddComments(file, comment, readSymlinks);
     }
   }
   catch (ProgramOptionsError &)
