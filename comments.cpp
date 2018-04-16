@@ -8,23 +8,6 @@ const std::vector<PvsStudioFreeComments::Comment> PvsStudioFreeComments::Comment
 #include "comments_msg.h"
 };
 
-static bool beginsWithICase(const std::string &str, const std::string &prefix)
-{
-  if (str.length() < prefix.length())
-  {
-    return false;
-  }
-
-  for (size_t i = 0; i < prefix.length(); ++i)
-  {
-    if (tolower(str[i]) != tolower(prefix[i]))
-    {
-      return false;
-    }
-  }
-  return true;
-}
-
 class CommentsParser
 {
 public:
@@ -42,19 +25,23 @@ public:
       {
         for (auto &comment : PvsStudioFreeComments::Comments)
         {
-          if (comment.lines == m_comment.lines)
+          bool isCommentsEqual = std::equal(comment.trimmedText.begin(),   comment.trimmedText.end(),
+                                            m_comment.trimmedText.begin(), m_comment.trimmedText.end(),
+                                            [](auto a, auto b) { return tolower(a) == tolower(b); });
+          if (isCommentsEqual)
           {
-            if (beginsWithICase(comment.trimmedText, m_comment.trimmedText))
-              return true;
+            return true;
           }
         }
         prevLines = m_comment.lines;
       }
       else
       {
+        m_comment.trimmedText.clear();
         ++m_skippedLines;
       }
     }
+
     return false;
   }
 
@@ -78,12 +65,24 @@ private:
     {
       const char *begin = it + 2;
       const char *end = begin;
-      while (*end != '\n' && *end != '\0')
+
+      while (*end != '\n' && *end != '\r' && *end != '\0' )
+      {
         ++end;
-      it = (*end == '\n') ? end + 1 : end;
+      }
+
+      if (end[0] == '\r')
+      {
+        it = end[1] == '\n' ? end + 2 : end + 1;
+      }
+      else
+      {
+        it = end[0] == '\n' ? end + 1 : end;
+      }
 
       return m_comment.addLine(begin, end) ? it : nullptr;
     }
+
     if (it[0] == '/' && it[1] == '*')
     {
       m_inMultiline = true;
@@ -100,25 +99,25 @@ private:
 
     const char *begin = it;
     const char *end = begin;
-    while (*end != '\n' && *end != '\0' && (end[0] != '*' || end[1] != '/'))
-      ++end;
 
-    switch (*end)
+    while (*end != '\n' && *end != '\r' && *end != '\0' && (end[0] != '*' || end[1] != '/'))
     {
-    case '\n':
-      it = end + 1;
-      break;
-    case '\0':
-      it = end;
-      break;
-    case '*':
-      it = end + 2;
-      m_inMultiline = false;
-      break;
-    default:
-      assert(false);
+      ++end;
     }
 
+    if (*end == '*')
+    {
+      it = end + 2;
+      m_inMultiline = false;
+    }
+    else if (*end == '\r')
+    {
+      it = end[1] == '\n' ? end + 2 : end + 1;
+    }
+    else
+    {
+      it = end[0] == '\n' ? end + 1 : end;
+    }
     return m_comment.addLine(begin, end) ? it : nullptr;
   }
 
