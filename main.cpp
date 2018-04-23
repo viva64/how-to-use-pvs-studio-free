@@ -36,7 +36,46 @@ static bool IsSourceFile(const filesystem::path &path)
   return find(sourceExtensions.begin(), sourceExtensions.end(), ext) != sourceExtensions.end();
 }
 
-static void AddCommentsToFile(const filesystem::path &path, const string &comment)
+class ProgramOptions
+{
+  ProgramOptions() = default;
+  ProgramOptions(const ProgramOptions& root) = delete;
+  ProgramOptions& operator=(const ProgramOptions&) = delete;
+public:
+  static ProgramOptions& Instance()
+  {
+    static ProgramOptions theSingleInstance;
+    return theSingleInstance;
+  }
+  size_t commentType = -1;
+  vector<string> files;
+  bool multiline = false;
+};
+
+void WriteComment(const filesystem::path &path,
+                  const string &comment,
+                  const string &source,
+                  bool isUnixLineEnding,
+                  Encoding enc,
+                  size_t bomLen)
+{
+  ofstream osrc(path, ios::binary);
+  if (!osrc.is_open())
+  {
+    cerr << "Error: Couldn't open " << path << endl;
+    return;
+  }
+
+  if (bomLen != 0)
+  {
+    osrc.write(source.c_str(), bomLen);
+  }
+
+  ConvertEncoding(osrc, comment, enc, !isUnixLineEnding);
+  osrc.write(source.c_str() + bomLen, source.length() - bomLen);
+}
+
+static void AddCommentsToFile(const filesystem::path &path, const string &comment, const ProgramOptions &options)
 {
   if (!IsSourceFile(path))
     return;
@@ -56,6 +95,7 @@ static void AddCommentsToFile(const filesystem::path &path, const string &commen
   isrc.seekg(0, ios::beg);
 
   str.assign((istreambuf_iterator<char>(isrc)), istreambuf_iterator<char>());
+  isrc.close();
   string source = str;
 
   Encoding enc;
@@ -67,25 +107,29 @@ static void AddCommentsToFile(const filesystem::path &path, const string &commen
   if (idx != string::npos && idx != 0 && str[idx - 1] == '\r')
     isUnixLineEnding = false;
 
-  if (!PvsStudioFreeComments::HasAnyComment(str.c_str()))
+  PvsStudioFreeComments::CommentsParser parser;
+  auto itFreeComment = parser.readFreeComment(source.c_str());
+  const char *beg = parser.freeCommentBegin();
+  const char *end = parser.freeCommentEnd();
+  
+  if (itFreeComment != PvsStudioFreeComments::Comments.end())
   {
-    isrc.close();
-    ofstream osrc(path, ios::binary);
-    if (!osrc.is_open())
+    bool needToChangeComment =    (!options.multiline && beg[0] == '/' && beg[1] == '*')
+                               || (options.multiline  && beg[0] == '/' && beg[1] == '/')
+                               || itFreeComment != PvsStudioFreeComments::Comments.begin() + (ProgramOptions::Instance().commentType - 1);
+    if (needToChangeComment)
     {
-      cerr << "Error: Couldn't open " << path << endl;
-      return;
+      source.erase(source.begin() + distance(source.c_str(), beg), source.begin() + distance(source.c_str(), end));
+      WriteComment(path, comment, source, isUnixLineEnding, enc, bomLen);
     }
-    if (bomLen != 0)
-    {
-      osrc.write(source.c_str(), bomLen);
-    }
-    ConvertEncoding(osrc, comment, enc, !isUnixLineEnding);
-    osrc.write(source.c_str() + bomLen, source.length() - bomLen);
+  }
+  else
+  {
+    WriteComment(path, comment, source, isUnixLineEnding, enc, bomLen);
   }
 }
 
-static void AddComments(const string &path, const string &comment)
+static void AddComments(const string &path, const string &comment, const ProgramOptions &options)
 {
   auto fsPath = filesystem::canonical(path);
   auto fsStatus = filesystem::status(fsPath);
@@ -100,13 +144,13 @@ static void AddComments(const string &path, const string &comment)
     {
       if (filesystem::is_regular_file(p.status()))
       {
-        AddCommentsToFile(p.path(), comment);
+        AddCommentsToFile(p.path(), comment, options);
       }
     }
   }
   else
   {
-    AddCommentsToFile(fsPath, comment);
+    AddCommentsToFile(fsPath, comment, options);
   }
 }
 
@@ -206,7 +250,9 @@ struct Option
 
 struct ProgramOptionsError {};
 
-static void ParseProgramOptions(int argc, const char *argv[], const vector<Option> &options, function<void(string&&)> found)
+typedef vector<Option> ParsedOptions;
+
+static void ParseProgramOptions(int argc, const char *argv[], const ParsedOptions &options, function<void(string&&)> found)
 {
   auto findOpt = [&options](const string& arg) {
     return find_if(begin(options), end(options), [arg](const Option &o) {
@@ -249,29 +295,27 @@ static void ParseProgramOptions(int argc, const char *argv[], const vector<Optio
 
 int main(int argc, const char *argv[])
 {
-  string commentType;
-  vector<string> files;
-  bool multiline = false;
-  vector<Option> options = {
-    { {"-c", "/c", "--comment"}, true,   [&](string &&arg) { commentType = move(arg); } },
-    { { "-m", "--multiline" },   false,  [&](string &&)    { multiline = true; } },
+  auto &progOptions = ProgramOptions::Instance();
+  ParsedOptions options = {
+    { {"-c", "/c", "--comment"}, true,   [&](string &&arg) { progOptions.commentType = stoull(arg); } },
+    { { "-m", "--multiline" },   false,  [&](string &&)    { progOptions.multiline = true; } },
     { {"-h", "--help", "/?"},    false,  [&](string &&)    { throw ProgramOptionsError(); } },
   };
 
   try
   {
-    ParseProgramOptions(argc, argv, options, [&files](string &&arg){files.emplace_back(move(arg));});
+    ParseProgramOptions(argc, argv, options, [&files = progOptions.files](string &&arg){files.emplace_back(move(arg));});
 
-    unsigned long long n = stoull(commentType);
+    unsigned long long n = progOptions.commentType;
     if (n == 0 || n > PvsStudioFreeComments::Comments.size())
     {
       throw invalid_argument("");
     }
 
-    string comment = Format(PvsStudioFreeComments::Comments[n - 1].text, multiline);
-    for (const string &file : files)
+    string comment = Format(PvsStudioFreeComments::Comments[n - 1].m_text, progOptions.multiline);
+    for (const string &file : progOptions.files)
     {
-      AddComments(file, comment);
+      AddComments(file, comment, progOptions);
     }
   }
   catch (ProgramOptionsError &)
