@@ -42,14 +42,16 @@ class ProgramOptions
   ProgramOptions(const ProgramOptions& root) = delete;
   ProgramOptions& operator=(const ProgramOptions&) = delete;
 public:
+  size_t m_commentType     = -1;
+  vector<string> m_files;
+  bool m_multiline         = false;
+  bool m_readSymlinks      = false;
+  
   static ProgramOptions& Instance()
   {
-    static ProgramOptions theSingleInstance;
-    return theSingleInstance;
+    static ProgramOptions programOptions;
+    return programOptions;
   }
-  size_t commentType = -1;
-  vector<string> files;
-  bool multiline = false;
 };
 
 void WriteComment(const filesystem::path &path,
@@ -114,9 +116,9 @@ static void AddCommentsToFile(const filesystem::path &path, const string &commen
   
   if (itFreeComment != PvsStudioFreeComments::Comments.end())
   {
-    bool needToChangeComment =    (!options.multiline && beg[0] == '/' && beg[1] == '*')
-                               || (options.multiline  && beg[0] == '/' && beg[1] == '/')
-                               || itFreeComment != PvsStudioFreeComments::Comments.begin() + (ProgramOptions::Instance().commentType - 1);
+    bool needToChangeComment =    (!options.m_multiline && beg[0] == '/' && beg[1] == '*')
+                               || (options.m_multiline  && beg[0] == '/' && beg[1] == '/')
+                               || itFreeComment != PvsStudioFreeComments::Comments.begin() + (ProgramOptions::Instance().m_commentType - 1);
     if (needToChangeComment)
     {
       source.erase(source.begin() + distance(source.c_str(), beg), source.begin() + distance(source.c_str(), end));
@@ -129,28 +131,45 @@ static void AddCommentsToFile(const filesystem::path &path, const string &commen
   }
 }
 
+static void ProcessFile(filesystem::path path, const string &comment, const ProgramOptions &options)
+{
+  if (options.m_readSymlinks && filesystem::is_symlink(path))
+  {
+    std::error_code error;
+    path = filesystem::canonical(filesystem::read_symlink(path), path.parent_path(), error);
+    if (error != std::error_code())
+    {
+      return;
+    }
+  }
+
+  if (filesystem::is_regular_file(path))
+  {
+    AddCommentsToFile(path, comment, options);
+  }
+}
+
 static void AddComments(const string &path, const string &comment, const ProgramOptions &options)
 {
   auto fsPath = filesystem::canonical(path);
-  auto fsStatus = filesystem::status(fsPath);
-  if (!filesystem::exists(fsStatus))
+  if (!filesystem::exists(fsPath))
   {
     cerr << "File not exists: " << path << endl;
     return;
   }
-  if (filesystem::is_directory(fsStatus))
+  if (filesystem::is_directory(fsPath))
   {
-    for (auto &p : filesystem::recursive_directory_iterator(fsPath))
+    filesystem::directory_options symlink_flag = options.m_readSymlinks
+                                                 ? filesystem::directory_options::follow_directory_symlink
+                                                 : filesystem::directory_options::none;
+    for (auto &&p : filesystem::recursive_directory_iterator(fsPath, symlink_flag))
     {
-      if (filesystem::is_regular_file(p.status()))
-      {
-        AddCommentsToFile(p.path(), comment, options);
-      }
+      ProcessFile(p.path(), comment, options);
     }
   }
   else
   {
-    AddCommentsToFile(fsPath, comment, options);
+    ProcessFile(fsPath, comment, options);
   }
 }
 
@@ -297,23 +316,24 @@ int main(int argc, const char *argv[])
 {
   auto &progOptions = ProgramOptions::Instance();
   ParsedOptions options = {
-    { {"-c", "/c", "--comment"}, true,   [&](string &&arg) { progOptions.commentType = stoull(arg); } },
-    { { "-m", "--multiline" },   false,  [&](string &&)    { progOptions.multiline = true; } },
+    { {"-c", "/c", "--comment"}, true,   [&](string &&arg) { progOptions.m_commentType  = stoull(arg); } },
+    { { "-m", "--multiline" },   false,  [&](string &&)    { progOptions.m_multiline    = true; } },
+    { { "-s", "--symlinks" },    false,  [&](string &&)    { progOptions.m_readSymlinks = true; } },
     { {"-h", "--help", "/?"},    false,  [&](string &&)    { throw ProgramOptionsError(); } },
   };
 
   try
   {
-    ParseProgramOptions(argc, argv, options, [&files = progOptions.files](string &&arg){files.emplace_back(move(arg));});
+    ParseProgramOptions(argc, argv, options, [&files = progOptions.m_files](string &&arg){files.emplace_back(move(arg));});
 
-    unsigned long long n = progOptions.commentType;
+    unsigned long long n = progOptions.m_commentType;
     if (n == 0 || n > PvsStudioFreeComments::Comments.size())
     {
       throw invalid_argument("");
     }
 
-    string comment = Format(PvsStudioFreeComments::Comments[n - 1].m_text, progOptions.multiline);
-    for (const string &file : progOptions.files)
+    string comment = Format(PvsStudioFreeComments::Comments[n - 1].m_text, progOptions.m_multiline);
+    for (const string &file : progOptions.m_files)
     {
       AddComments(file, comment, progOptions);
     }
