@@ -63,7 +63,7 @@ namespace PvsStudioFreeComments
     {
       buf = readComment(buf);
 
-      for (auto it = PvsStudioFreeComments::Comments.begin(); it != Comments.end(); ++it)
+      for (auto it = Comments.begin(); it != Comments.end(); ++it)
       {
         bool isCommentsEqual = std::equal(it->m_trimmedText.begin(),       it->m_trimmedText.end(),
                                           m_comment.m_trimmedText.begin(), m_comment.m_trimmedText.end(),
