@@ -316,10 +316,10 @@ int main(int argc, const char *argv[])
 {
   auto &progOptions = ProgramOptions::Instance();
   ParsedOptions options = {
-    { {"-c", "/c", "--comment"}, true,   [&](string &&arg) { progOptions.m_commentType  = stoull(arg); } },
-    { { "-m", "--multiline" },   false,  [&](string &&)    { progOptions.m_multiline    = true; } },
-    { { "-s", "--symlinks" },    false,  [&](string &&)    { progOptions.m_readSymlinks = true; } },
-    { {"-h", "--help", "/?"},    false,  [&](string &&)    { throw ProgramOptionsError(); } },
+    { { "-c", "/c", "--comment" },   true,   [&](string &&arg) { progOptions.m_commentType  = stoull(arg); } },
+    { { "-m", "/m", "--multiline" }, false,  [&](string &&)    { progOptions.m_multiline    = true; } },
+    { { "-s", "/s", "--symlinks" },  false,  [&](string &&)    { progOptions.m_readSymlinks = true; } },
+    { { "-h", "/?", "--help" },      false,  [&](string &&)    { throw ProgramOptionsError(); } },
   };
 
   try
