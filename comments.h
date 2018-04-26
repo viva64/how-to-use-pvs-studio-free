@@ -6,64 +6,53 @@
 
 #include <vector>
 #include <string>
-#include <sstream>
 
 namespace PvsStudioFreeComments
 {
   struct Comment
   {
     Comment() = default;
+    Comment(const char* t);
 
-    Comment(const char* t) : text(t), lines(0)
-    {
-      std::string line;
-      std::istringstream stream(t);
-      while (std::getline(stream, line))
-      {
-        addLine(line.data(), line.data() + line.length());
-      }
-    }
-
-    bool addLine(const char *begin, const char *end)
-    {
-      size_t width = 0;
-      std::string whitespace = " \t";
-
-      while (begin != end && whitespace.find(*begin) != std::string::npos)
-      {
-        width += (*begin == '\t' ? 4 : 1);
-        ++begin;
-      }
-
-      if (width >= 80)
-      {
-        return false;
-      }
-
-      while (begin != end && whitespace.find(*(end - 1)) != std::string::npos)
-      {
-        --end;
-      }
-
-      if (begin != end)
-      {
-        ++lines;
-        if (!trimmedText.empty())
-        {
-          trimmedText += ' ';
-        }
-        trimmedText.append(begin, end);
-      }
-
-      return true;
-    }
-
-    std::string text;
-    std::string trimmedText;
-    size_t lines;
+    bool addLine(const char *begin, const char *end);
+    
+    std::string m_text;
+    std::string m_trimmedText;
+    const char *m_begin = nullptr;
+    const char *m_end = nullptr;
   };
 
-  extern const std::vector<Comment> Comments;
+  typedef std::vector<Comment> FreeComments;
+
+  class CommentsParser
+  {
+
+    enum class State : uint8_t
+    {
+      Unknown,
+      Oneline,
+      Multiline,
+    };
+
+    Comment m_comment;
+    static constexpr size_t MaxSkippedLines = 10;
+    size_t m_skippedLines                   = 0;
+    State m_state                           = State::Unknown;
+
+    void changeState(State state);
+    const char* skipNewLine(const char *it);
+    const char* readComment(const char *it);
+    const char* readOnelineComment(const char *it);
+    const char* readMultilineComment(const char *it);
+  
+  public:
+    FreeComments::const_iterator readFreeComment(const char* buf);
+    const char* freeCommentBegin() const { return m_comment.m_begin; }
+    const char* freeCommentEnd() const { return m_comment.m_end; }
+   
+  };
+
+  extern const FreeComments Comments;
   bool HasAnyComment(const char* buf);
 }
 
