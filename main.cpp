@@ -208,18 +208,21 @@ static const char Help[] = R"HELP(How to use PVS-Studio for FREE?
 
 Usage:
 
-  how-to-use-pvs-studio-free -c <1|2|3> [-m] [-h] <strings> ...
+  how-to-use-pvs-studio-free -c <1|2|3> [-m] [-s] [-h] <strings> ...
 
 Options:
 
-  -c <1|2|3>,  --comment <1|2|3>
+  -c <1|2|3>,  /c <1|2|3>,  --comment <1|2|3>
     (required)  Type of comment prepended to the source file.
 
-  -m, --multiline
+  -m, /m, --multiline
     Use multi-line comments instead of single-line.
-    
-  -h,  --help
-    Display usage information and exits.
+
+  -s, /s, --symlinks
+    Follow the symbolic links and add comment to the files to which symbolic links point (files and directories).
+        
+  -h, /?, --help
+    Display usage information and exit.
     
   <string>  (accepted multiple times)
     (required)  Files or directories.
