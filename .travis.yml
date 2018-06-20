@@ -17,7 +17,7 @@ matrix:
 script:
     - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then
         brew update;
-        brew install gcc;
+        brew install gcc@7;
       fi
     - mkdir build
     - cd build
