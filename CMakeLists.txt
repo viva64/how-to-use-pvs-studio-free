@@ -10,7 +10,7 @@ set(SOURCES
     encoding.cpp
     )
 
-option(PVS_STUDIO_SHARED "Use shared libraries" OFF)
+option(PVS_STUDIO_SHARED "Use shared libraries" ON)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
