@@ -30,6 +30,7 @@ static bool IsSourceFile(const filesystem::path &path)
     , ".cxx"
     , ".c++"
     , ".cs"
+    , ".java"
   };
   string ext = path.extension().string();
   transform(ext.begin(), ext.end(), ext.begin(), [](char ch){return tolower(ch);});
