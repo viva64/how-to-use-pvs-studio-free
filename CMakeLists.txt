@@ -1,5 +1,5 @@
 # 2006-2008 (c) Viva64.com Team
-# 2008-2018 (c) OOO "Program Verification Systems"
+# 2008-2019 (c) OOO "Program Verification Systems"
 
 cmake_minimum_required(VERSION 2.8.11)
 project(How-To-Use-PVS-Studio-FREE CXX)
