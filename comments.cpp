@@ -25,7 +25,7 @@ namespace PvsStudioFreeComments
   {
     size_t width = 0;
 
-    while (begin != end && !isalnum(*begin))
+    while (begin != end && !isalnum(*reinterpret_cast<unsigned char const*>(begin)))
     {
       width += (*begin == '\t' ? 4 : (*begin == ' ' ? 1 : 0));
       ++begin;
@@ -36,7 +36,7 @@ namespace PvsStudioFreeComments
       return false;
     }
 
-    while (begin != end && isspace(*(end - 1)))
+    while (begin != end && isspace(*reinterpret_cast<unsigned char const*>(end - 1)))
     {
       --end;
     }

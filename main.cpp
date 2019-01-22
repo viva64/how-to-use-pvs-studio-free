@@ -25,6 +25,8 @@ static bool IsSourceFile(const filesystem::path &path)
   static const vector<string> sourceExtensions = {
       ".c"
     , ".cc"
+    , ".h"
+    , ".hpp"
     , ".cpp"
     , ".cp"
     , ".cxx"
@@ -232,9 +234,9 @@ Description:
 
   The utility will add comments to the files located in the specified folders
   and subfolders. The comments are added to the beginning of the files with the
-  extensions .c, .cc, .cpp, .cp, .cxx, .c++, .cs. You don't have to change
-  header files. If you use files with other extensions, you can customize this
-  utility for your needs. 
+  extensions .c, .cc, .cpp, .cp, .cxx, .c++, .cs, *.h, *.hpp. 
+  You don't have to change header files. If you use files with other extensions, 
+  you can customize this utility for your needs. 
 
   Options of comments that will be added to the code (-c NUMBER):
 
