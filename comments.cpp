@@ -109,7 +109,7 @@ namespace PvsStudioFreeComments
 
   const char* CommentsParser::readComment(const char* it)
   {
-    while (isspace(*it) && m_skippedLines < MaxSkippedLines)
+    while (isspace(*reinterpret_cast<unsigned char const*>(it)) && m_skippedLines < MaxSkippedLines)
     {
       if (it[0] == '\n')
         ++m_skippedLines;
