@@ -6,7 +6,7 @@ How to use PVS-Studio for FREE? [![Build Status](https://travis-ci.org/viva64/ho
 
   The utility will add comments to the files located in the specified folders
   and subfolders. The comments are added to the beginning of the files with the
-  extensions .c, .cc, .cpp, .cp, .cxx, .c++, .cs. You don't have to change header
+  extensions .c, .cc, .cpp, .cp, .cxx, .c++, .cs, .java. You don't have to change header
   files. If you use files with other extensions, you can customize this utility
   for your needs.
 
