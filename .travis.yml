@@ -6,19 +6,15 @@ matrix:
           addons:
               apt:
                   sources: ['ubuntu-toolchain-r-test']
-                  packages: ['g++-6']
-          env: COMPILER=g++-6
+                  packages: ['g++-8']
+          env: COMPILER=g++-8
 
         - os: osx
           osx_image: xcode10
           compiler: clang
-          env: COMPILER=clang
+          env: COMPILER=clang++
 
 script:
-    - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then
-        brew update;
-        brew install gcc@7;
-      fi
     - mkdir build
     - cd build
     - cmake -DCMAKE_BUILD_TYPE="Release" -DCMAKE_CXX_COMPILER="${COMPILER}" ..

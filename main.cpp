@@ -15,10 +15,9 @@
 #include <iostream>
 #include <sstream>
 #include <iomanip>
-#include <experimental/filesystem>
+#include <filesystem>
 
 using namespace std;
-using namespace std::experimental;
 
 static bool IsSourceFile(const filesystem::path &path)
 {
@@ -137,7 +136,7 @@ static void ProcessFile(filesystem::path path, const string &comment, const Prog
   if (options.m_readSymlinks && filesystem::is_symlink(path))
   {
     std::error_code error;
-    path = filesystem::canonical(filesystem::read_symlink(path), path.parent_path(), error);
+    path = filesystem::canonical(filesystem::read_symlink(path), error);
     if (error != std::error_code())
     {
       return;
