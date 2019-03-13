@@ -21,7 +21,7 @@ Getting up and running
 
 ### Windows:
 
-  1. Install Visual Studio 2015. All desktop editions of Visual Studio 2015 can build this utility.
+  1. Install Visual Studio 2017. All desktop editions of Visual Studio 2017 can build this utility.
   2. Open How-To-Use-PVS-Studio-FREE.sln and build Release x64.
   3. After compiling finishes, you can run the following command in Command Prompt:
 
@@ -32,7 +32,7 @@ Getting up and running
 ### Linux/macOS:
 
   1. Install Git then clone our repository.
-  2. Install GCC 5.4 or later.
+  2. Install GCC 7 or later.
   3. Install CMake.
   4. Open your source folder in Terminal and run the following commands:
 
