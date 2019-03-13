@@ -12,12 +12,12 @@ set(SOURCES
 
 option(PVS_STUDIO_SHARED "Use shared libraries" ON)
 
-set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 if (MSVC)
     add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 else ()
+    set(CMAKE_CXX_STANDARD 17)
     if (NOT APPLE)
         set(CMAKE_INSTALL_PREFIX "/usr")
     endif ()
