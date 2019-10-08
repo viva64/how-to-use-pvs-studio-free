@@ -14,8 +14,8 @@ matrix:
           env: CXX=g++-8
 script:
     - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then
-        brew update
-        brew install gcc@8
+        brew update;
+        brew install gcc@8;
       fi
     - mkdir build
     - cd build
