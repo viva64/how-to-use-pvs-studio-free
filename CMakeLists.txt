@@ -1,7 +1,9 @@
 # 2006-2008 (c) Viva64.com Team
 # 2008-2019 (c) OOO "Program Verification Systems"
+cmake_minimum_required(VERSION 3.10)
+set(CMAKE_OSX_DEPLOYMENT_TARGET 10.15)
+set(CMAKE_CXX_STANDARD 17)
 
-cmake_minimum_required(VERSION 2.8.11)
 project(How-To-Use-PVS-Studio-FREE CXX)
 
 set(SOURCES
@@ -17,7 +19,6 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 if (MSVC)
     add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 else ()
-    set(CMAKE_CXX_STANDARD 17)
     if (NOT APPLE)
         set(CMAKE_INSTALL_PREFIX "/usr")
     endif ()

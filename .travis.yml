@@ -3,12 +3,20 @@ dist: bionic
 matrix:
     include:
         - os: linux
-          compiler: gcc
+          addons:
+              apt:
+                  sources: ['ubuntu-toolchain-r-test']
+                  packages: ['g++-8']
+          env: CXX=g++-8
 
         - os: osx
           osx_image: xcode9.3
-          compiler: gcc
+          env: CXX=g++-8
 script:
+    - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then
+        brew update;
+        brew install gcc@8;
+      fi
     - mkdir build
     - cd build
     - cmake -DCMAKE_BUILD_TYPE="Release" ..
