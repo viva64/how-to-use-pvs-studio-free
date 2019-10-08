@@ -1,4 +1,4 @@
-How to use PVS-Studio for FREE? [![Build Status](https://travis-ci.org/viva64/how-to-use-pvs-studio-free.svg?branch=master)](https://travis-ci.org/viva64/how-to-use-pvs-studio-free)
+How to use PVS-Studio for FREE? [![Build Status](https://travis-ci.org/viva64/how-to-use-pvs-studio-free.svg?branch=master)](https://travis-ci.org/viva64/how-to-use-pvs-studio-free)  [![Docs](https://img.shields.io/readthedocs/pip.svg)](https://www.viva64.com/en/b/0457/) ![Platforms](https://img.shields.io/badge/platform-linux%20|%20windows%20|%20macos-green)
 ===============================
 
   You can use PVS-Studio code analyzer for free, if you add special comments
@@ -21,33 +21,29 @@ Getting up and running
 
 ### Windows:
 
-  1. Install Visual Studio 2017. All desktop editions of Visual Studio 2017 can build this utility.
-  2. Open How-To-Use-PVS-Studio-FREE.sln and build Release x64.
-  3. After compiling finishes, you can run the following command in Command Prompt:
-
+  1. Install Visual Studio 2017 or higher. All desktop editions of Visual Studio can build this utility;
+  2. Install CMake (10.3 or higher);
+  3. Open your source folder in Developer Command Prompt and run the following commands:
+  
   ```
-  How-To-Use-PVS-Studio-FREE.exe --help
+  mkdir build;
+  cd build;
+  cmake -G "Visual Studio 15 2017 Win64" ..;
+  cmake --build . --config Release;
   ```
 
 ### Linux/macOS:
 
-  1. Install Git then clone our repository.
-  2. Install GCC 7 or later.
-  3. Install CMake.
-  4. Open your source folder in Terminal and run the following commands:
+  1. Install GCC (8 or higher).
+  2. Install CMake (10.3 or higher).
+  3. Open your source folder in Terminal and run the following commands:
 
   ```
   mkdir build
   cd build
   cmake -DCMAKE_BUILD_TYPE=Release ..
   make
-  sudo make install
-  ```
 
-  5. After compiling and install finishes, you can run the following command in Terminal:
-
-  ```
-  how-to-use-pvs-studio-free --help
   ```
 
 ### Note:
