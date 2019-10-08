@@ -15,10 +15,9 @@
 #include <iostream>
 #include <sstream>
 #include <iomanip>
-#include <experimental/filesystem>
+#include <filesystem>
 
 using namespace std;
-using namespace std::experimental;
 
 static bool IsSourceFile(const filesystem::path &path)
 {
