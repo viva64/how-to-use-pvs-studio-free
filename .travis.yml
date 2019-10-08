@@ -13,8 +13,8 @@ matrix:
         - os: osx
           osx_image: xcode10.1
           env: CXX=g++-8
-          
-          os: windows
+
+        - os: windows
 script:
     - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then
         brew update;
