@@ -28,16 +28,16 @@ Getting up and running
   3. Open your source folder in Developer Command Prompt and run the following commands:
   
   ```
-  mkdir build;
-  cd build;
-  cmake -G "Visual Studio 15 2017 Win64" ..;
-  cmake --build . --config Release;
+  mkdir build
+  cd build
+  cmake -G "Visual Studio 15 2017 Win64" ..
+  cmake --build . --config Release
   ```
 
 ### Linux/macOS:
 
-  1. Install GCC (8 or higher).
-  2. Install CMake (10.3 or higher).
+  1. Install GCC (8 or higher);
+  2. Install CMake (10.3 or higher);
   3. Open your source folder in Terminal and run the following commands:
 
   ```
@@ -48,7 +48,7 @@ Getting up and running
 
   ```
 
-### Note:
+## Note:
 
 There was a large discussion on the topic whether it is permitted to add and remove comments in the source code so that to use the analyzer for free. We consider this method to be unacceptable, as it is a way to bypass the restrictions, imposed on a free license. Therefore, we decided to add the following section to the license agreement:
 
