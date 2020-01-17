@@ -32,7 +32,7 @@ static bool IsSourceFile(const filesystem::path &path)
     , ".java"
   };
   string ext = path.extension().string();
-  transform(ext.begin(), ext.end(), ext.begin(), [](char ch){return tolower(ch);});
+  transform(ext.begin(), ext.end(), ext.begin(), [](unsigned char ch) { return static_cast<decltype(ext)::value_type>(tolower(ch)); });
   return find(sourceExtensions.begin(), sourceExtensions.end(), ext) != sourceExtensions.end();
 }
 
@@ -42,7 +42,7 @@ class ProgramOptions
   ProgramOptions(const ProgramOptions& root) = delete;
   ProgramOptions& operator=(const ProgramOptions&) = delete;
 public:
-  size_t m_commentType     = -1;
+  size_t m_commentType     = static_cast<size_t>(-1);
   vector<string> m_files;
   bool m_multiline         = false;
   bool m_readSymlinks      = false;
