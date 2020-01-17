@@ -1,5 +1,5 @@
 # 2006-2008 (c) Viva64.com Team
-# 2008-2019 (c) OOO "Program Verification Systems"
+# 2008-2020 (c) OOO "Program Verification Systems"
 cmake_minimum_required(VERSION 3.10)
 set(CMAKE_OSX_DEPLOYMENT_TARGET 10.14)
 set(CMAKE_CXX_STANDARD 17)
