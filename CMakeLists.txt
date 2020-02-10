@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD 17)
 project(How-To-Use-PVS-Studio-FREE CXX)
 
 set(SOURCES
+    suppress_base.suppress
     main.cpp
     comments.cpp
     encoding.cpp
