@@ -242,14 +242,22 @@ Description:
     2. Open source non-commercial project;
     3. Independent project of an individual developer.
 
-  If you are using PVS-Studio as a Visual Studio plugin, then enter the
-  following license key: 
+  If you are using PVS-Studio as a Visual Studio plugin or you are using 
+  the "C and C++ Compiler Monitoring UI" (Standalone.exe) utility, enter 
+  the following license key:
 
     Name: PVS-Studio Free
     Key:  FREE-FREE-FREE-FREE
 
-  If you are using PVS-Studio for Linux, you do not need to do anything else
-  besides adding comments to the source code. Just check your code.
+  If you are using PVS-Studio for Linux/macOS, use the following command:
+  
+  pvs-studio-analyzer credentials PVS-Studio Free FREE-FREE-FREE-FREE
+  
+  Note. Previously, a comment was enough to activate the free license for 
+  the Linux version. Now you also need to enter this special key, because 
+  without it, some scenarios for using the analyzer turned out to be inconvenient.
+  Read more: 
+  https://stackoverflow.com/a/65475501/7772356
 
   In case none of the options suits you, we suggest considering a purchase of a
   commercial license for PVS-Studio. We are ready to discuss this and other

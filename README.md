@@ -12,7 +12,7 @@ How to use PVS-Studio for FREE?
   files. If you use files with other extensions, you can customize this utility
   for your needs.
 
-  You can find more details about the free version of PVS-Studio [here](https://www.viva64.com/en/b/0457/).
+  You can find more details about the free version of PVS-Studio [here](https://www.viva64.com/en/b/0614/).
 
 Getting up and running
 ----------------------
@@ -51,7 +51,7 @@ Getting up and running
 
 There was a large discussion on the topic whether it is permitted to add and remove comments in the source code so that to use the analyzer for free. We consider this method to be unacceptable, as it is a way to bypass the restrictions, imposed on a free license. Therefore, we decided to add the following section to the license agreement:
 
-You have the right to use PVS-Studio for free by adding special comments to the source code of your project. To find out which comments should be added and the way to automate this process, read the article: "How to use PVS-Studio for Free".
+You have the right to use PVS-Studio for free by adding special comments to the source code of your project. To find out which comments should be added and the way to automate this process, read the article: "[How to use PVS-Studio for Free](https://www.viva64.com/en/b/0457/)".
 
 Note that this mode is not intended to evaluate this software. Please use a demo version or request a temporary license key to try out the analyzer.
 
