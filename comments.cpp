@@ -26,7 +26,7 @@ namespace PvsStudioFreeComments
   {
     size_t width = 0;
 
-    while (begin != end && !isalnum(*begin))
+    while (begin != end && !isalnum(static_cast<const unsigned char>(*begin)))
     {
       width += (*begin == '\t' ? 4 : (*begin == ' ' ? 1 : 0));
       ++begin;
@@ -37,7 +37,7 @@ namespace PvsStudioFreeComments
       return false;
     }
 
-    while (begin != end && isspace(*(end - 1)))
+    while (begin != end && isspace(static_cast<const unsigned char>(*(end - 1))))
     {
       --end;
     }
@@ -110,7 +110,7 @@ namespace PvsStudioFreeComments
 
   const char* CommentsParser::readComment(const char* it)
   {
-    while (isspace(*it) && m_skippedLines < MaxSkippedLines)
+    while (isspace(static_cast<const unsigned char>(*it)) && m_skippedLines < MaxSkippedLines)
     {
       if (it[0] == '\n')
         ++m_skippedLines;
