@@ -1,7 +1,7 @@
 How to use PVS-Studio for FREE?
 ===============================
 
-[![Build Status](https://travis-ci.org/viva64/how-to-use-pvs-studio-free.svg?branch=master)](https://travis-ci.org/viva64/how-to-use-pvs-studio-free)  [![Docs](https://img.shields.io/readthedocs/pip.svg)](https://www.viva64.com/en/b/0457/) ![Platforms](https://img.shields.io/badge/platform-linux%20|%20windows%20|%20macos-green)
+[![Build Status](https://travis-ci.org/viva64/how-to-use-pvs-studio-free.svg?branch=master)](https://travis-ci.org/viva64/how-to-use-pvs-studio-free)  [![Docs](https://img.shields.io/readthedocs/pip.svg)](https://pvs-studio.com/en/blog/posts/0457/) ![Platforms](https://img.shields.io/badge/platform-linux%20|%20windows%20|%20macos-green)
 
   You can use PVS-Studio code analyzer for free, if you add special comments
   to your source code.
@@ -12,7 +12,7 @@ How to use PVS-Studio for FREE?
   files. If you use files with other extensions, you can customize this utility
   for your needs.
 
-  You can find more details about the free version of PVS-Studio [here](https://www.viva64.com/en/b/0614/).
+  You can find more details about the free version of PVS-Studio [here](https://pvs-studio.com/en/blog/posts/0614/).
 
 Getting up and running
 ----------------------
@@ -51,7 +51,7 @@ Getting up and running
 
 There was a large discussion on the topic whether it is permitted to add and remove comments in the source code so that to use the analyzer for free. We consider this method to be unacceptable, as it is a way to bypass the restrictions, imposed on a free license. Therefore, we decided to add the following section to the license agreement:
 
-You have the right to use PVS-Studio for free by adding special comments to the source code of your project. To find out which comments should be added and the way to automate this process, read the article: "[How to use PVS-Studio for Free](https://www.viva64.com/en/b/0457/)".
+You have the right to use PVS-Studio for free by adding special comments to the source code of your project. To find out which comments should be added and the way to automate this process, read the article: "[How to use PVS-Studio for Free](https://pvs-studio.com/en/blog/posts/0457/)".
 
 Note that this mode is not intended to evaluate this software. Please use a demo version or request a temporary license key to try out the analyzer.
 

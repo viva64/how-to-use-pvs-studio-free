@@ -264,7 +264,7 @@ Description:
   questions via e-mail: support@viva64.com.
   
   You can find more details about the free version of PVS-Studio
-  here: https://www.viva64.com/en/b/0457/
+  here: https://pvs-studio.com/en/blog/posts/0457/
 )HELP";
 
 void help()
