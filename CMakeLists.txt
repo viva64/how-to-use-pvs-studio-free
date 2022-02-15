@@ -23,6 +23,7 @@ if (MSVC)
 else ()
     if (NOT APPLE)
         set(CMAKE_INSTALL_PREFIX "/usr")
+        link_libraries(stdc++fs)
     endif ()
 
     if (NOT PVS_STUDIO_SHARED AND NOT APPLE)
@@ -32,8 +33,6 @@ else ()
     endif ()
 
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror -Wold-style-cast")
-
-    link_libraries(stdc++fs)
 endif ()
 
 if (NOT "${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
