@@ -297,7 +297,7 @@ static void ParseProgramOptions(int argc, const char *argv[], const ParsedOption
     auto it = findOpt(arg);
     if (it == end(options))
     {
-      found(move(arg));
+      found(std::move(arg));
     }
     else if (it->hasArg)
     {
@@ -315,7 +315,7 @@ static void ParseProgramOptions(int argc, const char *argv[], const ParsedOption
         cout << "No argument specified for " << arg << endl;
         throw ProgramOptionsError();
       }
-      it->found(move(val));
+      it->found(std::move(val));
     }
     else
     {
@@ -336,7 +336,11 @@ int main(int argc, const char *argv[])
 
   try
   {
-    ParseProgramOptions(argc, argv, options, [&files = progOptions.m_files](string &&arg){files.emplace_back(move(arg));});
+    ParseProgramOptions(argc, argv, options,
+                        [&files = progOptions.m_files](string &&arg)
+                        {
+                          files.emplace_back(std::move(arg));
+                        });
 
     unsigned long long n = progOptions.m_commentType;
     if (n == 0 || n > PvsStudioFreeComments::Comments.size())
