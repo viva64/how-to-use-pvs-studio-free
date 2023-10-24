@@ -5,8 +5,9 @@
 #ifndef PVS_STUDIO_FREE_COMMENTS_COMMENTS_H
 #define PVS_STUDIO_FREE_COMMENTS_COMMENTS_H
 
-#include <vector>
+#include <cstdint>
 #include <string>
+#include <vector>
 
 namespace PvsStudioFreeComments
 {
